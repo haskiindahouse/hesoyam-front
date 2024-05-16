@@ -1,3 +1,5 @@
+import TestDiagram from '@/components/charts/TestDiagram/TestDiagram'
+
 export default function Home() {
   return (
     <section className='flex min-h-screen flex-col gap-4 p-3'>
@@ -42,6 +44,10 @@ export default function Home() {
             </span>
           </h2>
         </div>
+      </div>
+
+      <div style={{ width: '100%', display: 'block' }}>
+        <TestDiagram />
       </div>
     </section>
   )
