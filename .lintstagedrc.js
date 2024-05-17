@@ -7,5 +7,6 @@ const buildEslintCommand = (filenames) =>
 
 module.exports = {
   '*.{js,jsx,ts,tsx,md,html,css,scss}': 'prettier --write',
+  '*.{svg}': 'prettier --write --parser html',
   '!(.lintstagedrc)*.{js,jsx,ts,tsx}': [buildEslintCommand]
 }

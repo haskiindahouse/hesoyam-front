@@ -16,6 +16,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)']
+      },
       // setting `DEFAULT` key is not the same as applying a value through tailwind/plugin or @layer
       textColor: {
         primary: 'var(--color-text-primary)',
