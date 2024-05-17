@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <section className='flex min-h-screen flex-col gap-4 p-3'>
+    <section className='flex  min-h-screen flex-col gap-4 p-3'>
       <h2 className='text-3xl font-semibold'>Первые шаги</h2>
 
       <div className='flex gap-4 no-wrap overflow-auto'>
