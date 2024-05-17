@@ -3,21 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-text-primary: theme('colors.black');
+  --color-text-secondary: theme('colors.gray.500');
+  --color-bg-primary: theme('colors.white');
+  --color-bg-secondary: theme('colors.white');
 }
+
+/* TODO: Add color-blind mode */
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-text-primary: theme('colors.white');
+    --color-text-secondary: theme('colors.gray.400');
+    --color-bg-primary: theme('colors.slate.900');
+    --color-bg-secondary: theme('colors.gray.700');
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  html {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
   }
 }
