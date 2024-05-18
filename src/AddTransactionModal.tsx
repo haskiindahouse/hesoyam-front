@@ -1,5 +1,8 @@
 import { InteractableProps } from './PortalProvider'
 import { useEffect } from 'react'
+import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg'
+import { useCreateTransactionMutation } from 'src/services/transactions'
+import { cx } from 'src/cx'
 
 export function AddTransactionModal({
   show,
@@ -10,15 +13,25 @@ export function AddTransactionModal({
   useEffect(() => {
     onMount?.()
   }, [onMount])
+  const [createTransaction, { isLoading }] = useCreateTransactionMutation()
 
   return (
     <div
       tabIndex={-1}
       aria-hidden={show ? 'false' : 'true'}
-      className={`${show ? 'translate-y-0' : 'translate-y-full'} bg-black/10 backdrop-blur-md flex transition-all overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full max-h-full`}
+      className={cx(
+        'bg-black/10 backdrop-blur-md flex transition-all overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-end w-full md:inset-0 h-full max-h-full',
+        show ? 'backdrop-blur-md' : 'backdrop-blur-none'
+      )}
     >
-      <div className='relative p-4 w-full max-w-2xl max-h-full'>
-        <div className='relative bg-white rounded-lg shadow dark:bg-gray-700'>
+      <div
+        className={cx(
+          'relative w-full max-w-2xl transition-all',
+
+          show ? 'translate-y-0' : 'translate-y-full'
+        )}
+      >
+        <div className='relative bg-white rounded-t-2xl shadow dark:bg-gray-700'>
           <div className='flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600'>
             <h3 className='text-xl font-semibold'>Новая операция</h3>
             <button
@@ -26,21 +39,7 @@ export function AddTransactionModal({
               className='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white'
               onClick={abort}
             >
-              <svg
-                className='w-3 h-3'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 14 14'
-              >
-                <path
-                  stroke='currentColor'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
-                  d='m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6'
-                />
-              </svg>
+              <CloseIcon className='w-5 h-5' />
               <span className='sr-only'>Close modal</span>
             </button>
           </div>
@@ -70,6 +69,7 @@ export function AddTransactionModal({
                   <a
                     href='#'
                     className='inline-flex gap-1 items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group'
+                    aria-disabled='true'
                   >
                     <img src='/sort-horizontal.svg' alt='Перевод' />
                     Перевод
@@ -78,7 +78,8 @@ export function AddTransactionModal({
                 <li className='me-2'>
                   <a
                     href='#'
-                    className='inline-flex gap-1 items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 group'
+                    className='inline-flex gap-1 items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg text-secondary'
+                    aria-disabled='true'
                   >
                     <img src='/refresh.svg' alt='Долг' />
                     Долг
@@ -88,9 +89,22 @@ export function AddTransactionModal({
             </div>
             <form
               className='mx-auto flex flex-col gap-4'
-              onSubmit={(event) => {
+              onSubmit={async (event) => {
                 event.preventDefault()
-                success?.('DONE')
+
+                try {
+                  await createTransaction({
+                    // @ts-ignore
+                    money: parseInt(event.target.elements.money.value)
+                    // TODO: make other controls radio-like single select
+                    // category_id: 1,
+                    // payment_type_id: 1,
+                    // origin_id: 1
+                  })
+                  success?.()
+                } catch (error) {
+                  //
+                }
               }}
             >
               <div className='relative'>
@@ -99,6 +113,7 @@ export function AddTransactionModal({
                 </div>
                 <input
                   type='number'
+                  name='money'
                   className='outline-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                   pattern='^\d{5}(-\d{4})?$'
                 />
@@ -165,7 +180,8 @@ export function AddTransactionModal({
               <div className='flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600'>
                 <button
                   type='submit'
-                  className='w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                  className='w-full transition-all text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-black/10'
+                  disabled={isLoading}
                 >
                   Добавить
                 </button>

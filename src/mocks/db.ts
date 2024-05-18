@@ -8,7 +8,7 @@ export const db = factory({
     id: primaryKey(faker.string.uuid),
     acccount_from_id: faker.number.int,
     acccount_to_id: faker.number.int,
-    money: faker.number.int,
+    money: () => faker.number.int({ min: 10, max: 1000 }),
     history_id: faker.string.uuid,
     datatransaction: faker.date.recent,
     category: faker.word.noun,
@@ -17,4 +17,10 @@ export const db = factory({
   }
 })
 
+db.transaction.create()
+db.transaction.create()
+db.transaction.create()
+db.transaction.create()
+db.transaction.create()
+db.transaction.create()
 db.transaction.create()

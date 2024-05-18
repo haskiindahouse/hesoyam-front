@@ -1,18 +1,16 @@
 import { Link } from 'react-router-dom'
 import { usePortalContext } from './PortalProvider'
 import { AddTransactionModal } from './AddTransactionModal'
+import { Transaction } from './services/transactions'
 
 export function Footer() {
   const modalContext = usePortalContext()
 
   const handleAddTransactionButtonClick = async () => {
     try {
-      const response = await modalContext.show((props) => (
+      await modalContext.show<Partial<Transaction>>((props) => (
         <AddTransactionModal {...props} />
       ))
-      console.log(response)
-      // const transaction = await modalContext.show<Transaction>
-      // something like fetch(method post, body transaction)
     } catch (error) {
       // user closed modal
     }
