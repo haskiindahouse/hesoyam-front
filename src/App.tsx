@@ -7,7 +7,7 @@ export function App() {
   return (
     <PortalProvider>
       <Nav />
-      <main className='max-w-screen-xl mx-auto'>
+      <main className='max-w-screen-xl mx-auto overflow-auto max-h-screen'>
         <Outlet />
       </main>
       <Footer />

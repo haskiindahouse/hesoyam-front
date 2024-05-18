@@ -1,6 +1,9 @@
+import { useGetTransactionsQuery } from 'src/services/transactions'
+
 export function Home() {
+  const { data: transactions } = useGetTransactionsQuery()
   return (
-    <section className='flex  min-h-screen flex-col gap-4 p-3'>
+    <section className='flex flex-col gap-4 p-3'>
       <h2 className='text-3xl font-semibold'>Первые шаги</h2>
 
       <div className='flex gap-4 no-wrap overflow-auto'>
@@ -43,6 +46,8 @@ export function Home() {
           </h2>
         </div>
       </div>
+
+      <pre className=''>{JSON.stringify(transactions, null, 4)}</pre>
     </section>
   )
 }
