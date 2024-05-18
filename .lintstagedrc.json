@@ -1,5 +1,5 @@
 {
   "*.{js,jsx,ts,tsx,md,html,css,scss}": "prettier --write",
-  "*.{svg}": "prettier --write --parser html",
+  "*.svg": "prettier --write --parser html",
   "*.{ts,tsx}": "eslint --max-warnings=0"
 }
