@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 
 export function Nav() {
   return (
@@ -8,7 +7,7 @@ export function Nav() {
         href='https://itonecareer.ru/hackathon'
         className='flex items-center space-x-3 rtl:space-x-reverse'
       >
-        <Image
+        <img
           src='logo.svg'
           width='24'
           height='24'
@@ -23,7 +22,7 @@ export function Nav() {
         <ul className='font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:border-gray-700'>
           <li>
             <Link
-              href='/'
+              to='/'
               className='rounded hover:text-blue-700 dark:hover:text-blue-500'
               aria-current='page'
             >
@@ -32,7 +31,7 @@ export function Nav() {
           </li>
           <li>
             <Link
-              href='/'
+              to='/'
               className='rounded hover:text-blue-700 dark:hover:text-blue-500'
             >
               Кошелёк
@@ -40,7 +39,7 @@ export function Nav() {
           </li>
           <li>
             <Link
-              href='/'
+              to='/'
               className='rounded hover:text-blue-700 dark:hover:text-blue-500'
             >
               Настройки
@@ -48,7 +47,7 @@ export function Nav() {
           </li>
           <li>
             <Link
-              href='/'
+              to='/'
               className='rounded hover:text-blue-700 dark:hover:text-blue-500'
             >
               Профиль
