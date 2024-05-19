@@ -1,14 +1,15 @@
 import { api, omitBlankEntries } from './api'
 
-type Transaction = {
+export type Transaction = {
   acccount_from_id: number
   acccount_to_id: number
   money: number
-  history_id: number
+  history_id: string
   datatransaction: string
   category: string
   description: string
   verification: boolean
+  user_category_id: string
   id: string
 }
 

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+export const API_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL
@@ -25,7 +26,7 @@ export const api = createApi({
   // refetchOnReconnect: true,
   // refetchOnFocus: true,
   // refetchOnMountOrArgChange: true,
-  tagTypes: ['Transaction'],
+  tagTypes: ['Transaction', 'Category'],
   endpoints: () => ({})
 })
 
@@ -34,10 +35,8 @@ export const api = createApi({
  * @param o {Object}
  * @returns Returns a new object without modifying the original
  */
-export const omitBlankEntries = <T extends unknown>(
-  o: T | undefined | null | void
-) => {
+export const omitBlankEntries = <T>(o: T | undefined | null | void) => {
   if (typeof o !== 'object' || Array.isArray(o) || o == null) return {}
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return Object.fromEntries(Object.entries(o).filter(([_, v]) => v !== ''))
 }
