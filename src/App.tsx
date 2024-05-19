@@ -12,7 +12,7 @@ export function App() {
     <Provider store={store}>
       <PortalProvider>
         <Nav />
-        <main className='max-w-screen-xl mx-auto overflow-auto max-h-screen'>
+        <main className='max-w-screen-xl mx-auto mb-20'>
           <Outlet />
         </main>
         <Footer />

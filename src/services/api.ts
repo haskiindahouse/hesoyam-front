@@ -26,7 +26,7 @@ export const api = createApi({
   // refetchOnReconnect: true,
   // refetchOnFocus: true,
   // refetchOnMountOrArgChange: true,
-  tagTypes: ['Transaction'],
+  tagTypes: ['Transaction', 'Category'],
   endpoints: () => ({})
 })
 

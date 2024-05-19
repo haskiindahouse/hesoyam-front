@@ -9,6 +9,7 @@ export type Transaction = {
   category: string
   description: string
   verification: boolean
+  user_category_id: string
   id: string
 }
 

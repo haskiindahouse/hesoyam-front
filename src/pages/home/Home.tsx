@@ -1,11 +1,32 @@
 import { PropsWithChildren } from 'react'
+import { AddTransactionModal } from 'src/AddTransactionModal'
+import { usePortalContext } from 'src/PortalProvider'
 import { Transaction, useGetTransactionsQuery } from 'src/services/transactions'
 
 export function Home() {
   const { data: transactions } = useGetTransactionsQuery()
 
+  const modalContext = usePortalContext()
+
+  const handleAddTransactionButtonClick = async () => {
+    try {
+      await modalContext.show<Partial<Transaction>>((props) => (
+        <AddTransactionModal {...props} />
+      ))
+    } catch (error) {
+      // user closed modal
+    }
+  }
+
   return (
     <section className='flex flex-col gap-4 p-3'>
+      <button
+        className='hidden md:block fixed right-10 bottom-10 p-0 w-12 h-12 text-white bg-blue-600 rounded-full hover:bg-red-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none'
+        onClick={handleAddTransactionButtonClick}
+      >
+        +
+      </button>
+
       <h2 className='text-3xl font-semibold'>Первые шаги</h2>
 
       <div className='flex gap-4 no-wrap overflow-auto'>
@@ -53,10 +74,33 @@ export function Home() {
         <div className='flex justify-between'>
           <h3 className='text-2xl font-semibold mb-4'>Сегодня</h3>
           <span className='text-lg text-secondary'>
-            {transactions?.reduce(
-              (accumulator, current) => accumulator + current.money,
-              0
-            )}
+            {Math.round(
+              (transactions?.reduce(
+                (accumulator, current) => accumulator + current.money,
+                0
+              ) || 0 + Number.EPSILON) * 100
+            ) / 100}
+            &nbsp;₽
+          </span>
+        </div>
+
+        <div className='flex flex-col gap-4'>
+          {transactions?.map((transaction) => (
+            <TransactionItem key={transaction.id} {...transaction} />
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className='flex justify-between'>
+          <h3 className='text-2xl font-semibold mb-4'>Вчера</h3>
+          <span className='text-lg text-secondary'>
+            {Math.round(
+              (transactions?.reduce(
+                (accumulator, current) => accumulator + current.money,
+                0
+              ) || 0 + Number.EPSILON) * 100
+            ) / 100}
             &nbsp;₽
           </span>
         </div>
